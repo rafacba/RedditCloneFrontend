@@ -1,0 +1,10 @@
+.titulo {
+    font-size: large;
+    font-weight: bolder;
+    color: blue;
+    padding-left: 5px;
+}
+
+.margen {
+    margin: 5px;
+}

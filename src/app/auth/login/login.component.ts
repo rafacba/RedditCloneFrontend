@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/service/auth.service';
 import { LoginRequestPayload } from './login-request.payload';
+import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -12,16 +14,20 @@ import { LoginRequestPayload } from './login-request.payload';
 export class LoginComponent implements OnInit {
   
   loginForm: FormGroup;
-  isError: boolean;
+  isError: boolean=false;
   loginRequestPayload:LoginRequestPayload;
+  registerSuccessMessage: string ='';
 
-  constructor(private _auth:AuthService) {
+  constructor(private _auth:AuthService,
+              private _toastr: ToastrService,
+              private router:Router,
+              private activatedRoute: ActivatedRoute) {
 
     this.loginRequestPayload = {
       username:'',
       password:''
     };
-    this.isError= false;
+
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required),
       password: new FormControl('',Validators.required)
@@ -29,6 +35,13 @@ export class LoginComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams
+      .subscribe(params=>{
+          if(params.registered !== undefined && params.registered ==='true') {
+            this._toastr.success('Signup Successful');
+            this.registerSuccessMessage = 'Please check your inbox to activate your account before you login';
+          }
+      });
   }
 
   login() {
@@ -36,7 +49,13 @@ export class LoginComponent implements OnInit {
     this.loginRequestPayload.username = this.loginForm.get('username')?.value;
     this.loginRequestPayload.password = this.loginForm.get('password')?.value;
     this._auth.login(this.loginRequestPayload)
-      .subscribe(()=> console.log('LoginSuccessful'));
-  }
-
+      .subscribe({
+        next: ()=> {
+          this.isError = false;
+          this.router.navigate(['/']);
+          this._toastr.success('Login Successful','Login Successfull');
+        },
+        error: ()=> this.isError=true,
+      });
+    }
 }

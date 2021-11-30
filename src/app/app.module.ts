@@ -7,7 +7,22 @@ import { HeaderComponent } from './shared/header/header.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastrModule } from 'ngx-toastr';
+import { HomeComponent } from './pages/home/home.component';
+import { TokenInterceptor } from './token-interceptor';
+import { PostTileComponent } from './shared/post-tile/post-tile.component';
+import { SideBarComponent } from './shared/side-bar/side-bar.component';
+import { SubredditSideBarComponent } from './shared/subreddit-side-bar/subreddit-side-bar.component';
+import { VoteButtonComponent } from './shared/vote-button/vote-button.component';
+import { CreateSubredditComponent } from './pages/create-subreddit/create-subreddit.component';
+import { CreatePostComponent } from './pages/create-post/create-post.component';
+import { ListSubredditsComponent } from './pages/list-subreddits/list-subreddits.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
+
 
 
 @NgModule({
@@ -15,15 +30,32 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     HeaderComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    HomeComponent,
+    PostTileComponent,
+    SideBarComponent,
+    SubredditSideBarComponent,
+    VoteButtonComponent,
+    CreateSubredditComponent,
+    CreatePostComponent,
+    ListSubredditsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    EditorModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

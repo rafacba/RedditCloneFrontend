@@ -4,7 +4,16 @@
             <img src="assets/images/reddit-icon.png" alt="" width="30" height="30">
             <span class="titulo">Reddit Clone</span>
         </a>
-        <div class="d-flex">
+        <div *ngIf="isLoggedIn" class="dropdown d-flex">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                {{username}}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <li><button (click)="goToUserProfile()" class="dropdown-item" type="button">Profile</button></li>
+                <li><button (click)="logout()" class="dropdown-item" type="button">Logout</button></li>
+            </ul>
+        </div>
+        <div *ngIf="!isLoggedIn" class="d-flex">
             <button routerLink="/login" class="btn btn-outline-primary margen" type="button">Login</button>
             <button routerLink="/signup" class="btn btn-primary margen" type="button">Sign Up</button>
         </div>

@@ -19,7 +19,16 @@ export class PostService {
     return this.http.get<Array<Post>>(`${this.url}posts/`);
   }
 
-  createPost(postPayload: CreatePost): Observable<any> {
-    return this.http.post(`${this.url}posts`, postPayload);
+  createPost(postPayload: CreatePost): any {
+    return this.http.post<string>('http://localhost:8080/api/posts/', postPayload);
+  }
+
+  getPost(id: number) : Observable<Post> {
+    
+    return this.http.get<Post>('http://localhost:8080/api/posts/'+id);
+  }
+
+  getAllPostsByUser(name: string): Observable<Post[]> {
+    return this.http.get<Post[]>('http://localhost:8080/api/posts/by-user/' + name);
   }
 }

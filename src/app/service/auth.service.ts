@@ -55,6 +55,10 @@ export class AuthService {
       return localStorage.getItem('authenticationToken');
   }
 
+  isLoggedIn(): boolean {
+    return this.getJwtToken() != null;
+  }
+
 }
 
 

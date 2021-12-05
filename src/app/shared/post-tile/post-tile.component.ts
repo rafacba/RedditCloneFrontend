@@ -1,10 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { Post } from 'src/app/model/post.model';
 
 @Component({
   selector: 'app-post-tile',
   templateUrl: './post-tile.component.html',
-  styleUrls: ['./post-tile.component.css']
+  styleUrls: ['./post-tile.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PostTileComponent implements OnInit {
 
@@ -13,13 +15,13 @@ export class PostTileComponent implements OnInit {
 
   faComments: any;
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
   }
 
   goToPost(postId:number) {
-    console.log(postId);
+    this.router.navigate(['view-post',postId])
   }
 
 }

@@ -10,7 +10,7 @@
         </span>
         <hr>
         <div class="post-title">
-            <a href="{{post.url}}" class="postname">{{post.postName}}</a>
+            <a [routerLink]="['/view-post/',post.id]" class="postname">{{post.postName}}</a>
         </div>
         <div>
             <p class="post-text" [innerHtml]="post.description"></p>

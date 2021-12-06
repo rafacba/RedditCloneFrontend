@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { SignupRequestPayload } from '../auth/signup/signup-request.payload';
 import { LoginRequestPayload } from '../auth/login/login-request.payload'
 import {map, tap} from 'rxjs/operators'
@@ -50,15 +50,27 @@ export class AuthService {
   getUsername() {
     return localStorage.getItem('username');
   }
-
+  
   getJwtToken() {
-      return localStorage.getItem('authenticationToken');
+    return localStorage.getItem('authenticationToken');
   }
-
+  
   isLoggedIn(): boolean {
     return this.getJwtToken() != null;
   }
-
+  
+  logout() {
+    this.http.post(`${this.url}auth/logout`, this.refreshToken, {responseType: 'text'})
+      .subscribe(data=>{
+        console.log(data);
+      }, error =>{
+        throwError(error);
+      });
+    localStorage.removeItem('authenticationToken');
+    localStorage.removeItem('username');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('expiresAt');
+  }
 }
 
 

@@ -21,4 +21,7 @@ export class SubredditService {
     return this.http.post<Subreddit>(`${this.url}subreddit`,subredditModel);
   }
   
+  getSubreddit(id: number) {
+    return this.http.get(`${this.url}subreddit/${id}`);
+  }
 }

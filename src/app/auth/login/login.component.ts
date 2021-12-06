@@ -52,7 +52,9 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: ()=> {
           this.isError = false;
-          this.router.navigate(['/']);
+          this.router.navigateByUrl('').then(()=>{
+            window.location.reload();
+          });
           this._toastr.success('Login Successful','Login Successfull');
         },
         error: ()=> this.isError=true,
